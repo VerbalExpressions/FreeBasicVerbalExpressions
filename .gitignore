@@ -1,0 +1,6 @@
+*.exe
+*.bin
+*.so
+*.dll
+*.a
+lib/*
