@@ -4,6 +4,7 @@ FreeBASICVerbalExpressions
 ## Regular Expressions made easy
 
 Verbal Expressions is a FreeBASIC module that helps to construct difficult regular expressions.
+It is a high level wrapper around the excellent PCRE library and will require linking to a compatible version of PCRE (as of FreeBASIC 1.09 this is PCRE 8).
 
 This FreeBASIC module is based off of the original Javascript [Verbal expressions library](https://github.com/jehna/VerbalExpressions) by [jehna](https://github.com/jehna/).
 
