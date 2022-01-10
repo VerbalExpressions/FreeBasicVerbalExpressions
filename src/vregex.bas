@@ -40,11 +40,11 @@ end enum
 #define COMPILE_IF_DIRTY if dirty then compile()
 #define MARK_DIRTY dirty = true
 
-operator = ( byref lhs as VRegex, byref rhs as VRegex ) as integer
+operator = ( byref lhs as VRegex, byref rhs as VRegex ) as long
     return iif(cast(string,lhs) = cast(string,rhs),true,false)
 end operator
 
-operator <> ( byref lhs as VRegex, byref rhs as VRegex ) as integer
+operator <> ( byref lhs as VRegex, byref rhs as VRegex ) as long
     return iif(cast(string,lhs) = cast(string,rhs),false,true)
 end operator
 
@@ -151,7 +151,7 @@ end function
 function VRegex.range( args() as string ) as VRegex ptr
     var value = "["
 
-    for n as uinteger = lbound(args) to ubound(args) step 2
+    for n as ulong = lbound(args) to ubound(args) step 2
         value = value & args(n) & "-" & args(n+1)
     next
 
@@ -228,7 +228,7 @@ function VRegex.reduceLines( byref rhs as string ) as string
     return mid(ret,1,pos_-1)
 end function
 
-function VRegex.checkFlags() as uinteger
+function VRegex.checkFlags() as ulong
     var ret = 0u
     if is_case_sensitive then
         ret = ret or PCRE_CASELESS
@@ -246,7 +246,7 @@ sub VRegex.compile()
     if re_study <> 0 then
         pcre_free_study(re_study)
     end if
-    re = pcre_compile(pattern,checkFlags(),@error_string,@error_offset,0)
+    re = pcre_compile(pattern, checkFlags(), @error_string, @error_offset, 0)
     if re <> 0 then
         re_study = pcre_study(re,PCRE_STUDY_JIT_COMPILE,@error_string)
     else
@@ -289,10 +289,10 @@ function VRegex.replace( byref source as string, byref v as string ) as string
     COMPILE_IF_DIRTY
     var buf = ""
     var cmatches = 8
-    var matches = new integer[cmatches]
+    var matches = new long[cmatches]
     var errors = 0
     runregex:
-    errors = pcre_exec(re,re_study,source,len(source),0,0,matches,cmatches)
+    errors = pcre_exec(re, re_study, source, len(source), 0, 0, matches, cmatches)
     if errors < 0 then
         error_string = @"No matches found or other error, code in offset."
         error_offset = errors
@@ -301,11 +301,11 @@ function VRegex.replace( byref source as string, byref v as string ) as string
     elseif errors = 0 then
         delete[] matches
         cmatches *= 2
-        matches = new integer[cmatches]
+        matches = new long[cmatches]
         goto runregex
     end if
     var last_i = 1
-    for n as integer = 0 to (errors*2)-1 step 2
+    for n as long = 0 to (errors*2)-1 step 2
         buf = buf & mid(source,last_i,matches[n]) & v & mid(source,matches[n+1]+1)
         last_i = matches[n] + len(v) + 1
     next

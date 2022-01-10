@@ -83,27 +83,27 @@ type VRegex
     declare function alt( byref rhs as string ) as VRegex ptr
 
     as zstring ptr error_string
-    as integer error_offset
+    as long error_offset
 
     private:
         declare function add( byref rhs as string ) as VRegex ptr
-        declare function checkFlags() as uinteger
+        declare function checkFlags() as ulong
         declare function reduceLines( byref rhs as string ) as string
         declare sub compile()
         dirty as bool
         re as pcre ptr
-        re_study as pcre_extra_ ptr
+        re_study as pcre_extra ptr
         is_multiline as bool
         is_case_sensitive as bool
         prefixes as string
         source as string
         suffixes as string
         pattern as string
-        modifiers as uinteger
+        modifiers as ulong
 end type
 
-declare operator = ( byref lhs as VRegex, byref rhs as VRegex ) as integer
-declare operator <> ( byref lhs as VRegex, byref rhs as VRegex ) as integer
+declare operator = ( byref lhs as VRegex, byref rhs as VRegex ) as long
+declare operator <> ( byref lhs as VRegex, byref rhs as VRegex ) as long
 
 #inclib "fbvregex"
 #endif '__VERBAL_REGULAR_EXPRESSIONS_BI__
